@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Weather Dashboard</title>
+
+<style>
+body{
+    font-family: 'Arial', sans-serif;
+    margin:0;
+    padding:0;
+    background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    color: #333;
+}
+
+.container{
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+h2{
+    text-align:center;
+    margin-bottom: 30px;
+    color:#fff;
+}
+
+form{
+    display:flex;
+    justify-content:center;
+    margin-bottom: 20px;
+}
+
+input{
+    padding:10px;
+    border-radius:5px 0 0 5px;
+    border:none;
+    width:250px;
+    font-size:16px;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:0 5px 5px 0;
+    background-color:#ff6f61;
+    color:#fff;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background-color:#ff3b2e;
+}
+
+.weather-card, .forecast-card{
+    background-color: rgba(255,255,255,0.9);
+    border-radius:10px;
+    padding:20px;
+    margin-bottom:20px;
+    text-align:center;
+}
+
+.weather-card img, .forecast-card img{
+    width:50px;
+    height:50px;
+    vertical-align:middle;
+}
+
+.forecast-container{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+}
+
+.forecast-card{
+    flex:1 1 120px;
+    margin:10px;
+}
+</style>
+
+</head>
+<body>
+<div class="container">
+
+<h2>Weather Dashboard</h2>
+
+<form method="POST">
+<input type="text" name="city" placeholder="Enter city" required>
+<button type="submit">Search</button>
+</form>
+
+{% if error %}
+<p style="color:red;text-align:center;">Error: {{ error }}</p>
+{% endif %}
+
+{% if weather %}
+<div class="weather-card">
+<h3>{{ weather.location.name }}, {{ weather.location.country }}</h3>
+<p>
+<img src="https:{{ weather.current.condition.icon }}" alt="icon">
+{{ weather.current.condition.text }}
+</p>
+<p>Temperature: {{ weather.current.temp_c }} °C</p>
+<p>Humidity: {{ weather.current.humidity }}%</p>
+<p>Wind: {{ weather.current.wind_kph }} kph</p>
+</div>
+
+<h3 style="text-align:center;color:#fff;">5-Day Forecast</h3>
+<div class="forecast-container">
+{% for day in forecast %}
+<div class="forecast-card">
+<p>{{ day.date }}</p>
+<img src="https:{{ day.day.condition.icon }}" alt="icon">
+<p>{{ day.day.condition.text }}</p>
+<p>Max: {{ day.day.maxtemp_c }}°C</p>
+<p>Min: {{ day.day.mintemp_c }}°C</p>
+</div>
+{% endfor %}
+</div>
+{% endif %}
+
+</div> <!-- end container -->
+</body>
+</html>
