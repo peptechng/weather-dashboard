@@ -45,4 +45,5 @@ def index():
     return render_template("index.html", weather=weather, forecast=forecast, error=error)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Render assigns this automatically
+    app.run(host="0.0.0.0", port=port, debug=True)
